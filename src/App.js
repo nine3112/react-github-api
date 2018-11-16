@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux'
+import Searchbar from './containers/searchbar/searchbar'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <React.Fragment>
+      <Searchbar SEARCH={this.props.SEARCH}/>
+      </React.Fragment>
     );
   }
 }
 
-export default App;
+const mapStateToProps = function (state) {
+  return {
+    TextSearch: state.github.TextSearch
+  }
+}
+
+const mapDispatchToProps = function (dispatch) {
+  return {
+    SEARCH: (TextSearch) => {
+      dispatch({
+        type: "SEARCH",
+        payload: {
+          TextSearch: TextSearch
+        }
+      })
+
+    }
+  }
+}
+
+const MyApp = () => (
+    <App />
+)
+const AppWithConnect = connect(mapStateToProps,mapDispatchToProps)(MyApp)
+
+export default AppWithConnect;
+
+
